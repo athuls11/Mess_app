@@ -6,8 +6,8 @@ const router = require("./routes/user.router");
 const { success, error } = require("consola");
 app.use("/", router);
 //MongoDB connection
-const dbName = "messdb";
-const dbUrl = `${process.env.DB_URL}/${dbName}`;
+// const dbName = "messdb";
+const dbUrl = process.env.DB_URL;
 mongoose(dbUrl);
 // mongoose.connect("mongodb://localhost/mess", { useNewUrlParser: true });
 // mongoose.connection
