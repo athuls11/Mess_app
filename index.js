@@ -7,7 +7,7 @@ const { success, error } = require("consola");
 app.use("/", router);
 //MongoDB connection
 // const dbName = "messdb";
-const dbUrl = process.env.DB_URL;
+const dbUrl = 'mongodb+srv://athuls11:athulatz11@cluster0.yyoogku.mongodb.net/messdb?retryWrites=true&w=majority';
 mongoose(dbUrl);
 // mongoose.connect("mongodb://localhost/mess", { useNewUrlParser: true });
 // mongoose.connection
