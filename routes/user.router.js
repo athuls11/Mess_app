@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
   res.send("hello");
 });
 router.post("/signup", user.signup);
-router.post("/login/", user.login);
+router.post("/login", user.login);
 router.post("/logout", auth.accessToken, user.logout);
 router.get("/profile", auth.accessToken, user.getByUserId);
 
