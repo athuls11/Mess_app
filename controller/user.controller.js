@@ -3,9 +3,34 @@ const User = require("../models/user.models");
 const Amount = require("../models/amount.models");
 // const user = require("../services/user.service");
 
+const OneSignal = require("onesignal-node");
+const client = new OneSignal.Client(
+  "a1c86044-240f-4885-ae93-f5bc754cb589",
+  "OWY0MWU2OTUtZDg1MC00NzVkLWJiMDMtNGVjYTNkNmM2NzJh"
+);
+
+function sendPushNotification(token, text) {
+  return new Promise((res, rej) => {
+    const notification = {
+      contents: {
+        en: "Helloo",
+      },
+      // include_player_ids: ["d803026f-a32c-4bcc-b77f-2bf6383af22c"], // for sending one device
+      included_segments: ["Subscribed Users"],
+    };
+
+    return client
+      .createNotification(notification)
+      .then((response) => {
+        return res(response);
+      })
+      .catch((e) => {
+        return rej(e);
+      });
+  });
+}
 
 const signup = async (req, res) => {
-
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -65,7 +90,7 @@ const login = async (req, res) => {
       if (password !== user.password) {
         return res.status(404).json({ message: "Incorrect password" });
       }
-     
+
       let accessToken = jwt.sign({ user_data }, "access-key-secrete", {
         expiresIn: "2d",
       });
@@ -84,6 +109,7 @@ const login = async (req, res) => {
         accessToken,
         // refreshToken,
       };
+      sendPushNotification();
       return res.status(200).json({
         status: "success",
         data: tokens,
@@ -182,7 +208,6 @@ const filterByDate = (req, res) => {
         var date = new Date(a.date);
         return date >= startDate && date <= endDate;
       });
-      console.log(resultProductData, "jjdjd");
 
       res.status(200).json({
         status: "success",
