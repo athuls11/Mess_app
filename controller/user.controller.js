@@ -10,7 +10,7 @@ const client = new OneSignal.Client(
 );
 
 function sendPushNotification(token, text) {
-  return new Promise((res, rej) => {
+  return new Promise(async (res, rej) => {
     const notification = {
       contents: {
         en: "Helloo",
@@ -19,14 +19,13 @@ function sendPushNotification(token, text) {
       included_segments: ["Subscribed Users"],
     };
 
-    return client
-      .createNotification(notification)
-      .then((response) => {
-        return res(response);
-      })
-      .catch((e) => {
-        return rej(e);
-      });
+    try {
+      const response = await client
+        .createNotification(notification);
+      return res(response);
+    } catch (e) {
+      return rej(e);
+    }
   });
 }
 
@@ -84,11 +83,11 @@ const login = async (req, res) => {
       };
       // let check = await checkPswd(user.password, password);
       if (email !== user.email) {
-        return res.status(404).json({ message: "Incorrect email" });
+        return res.status(404).json({ status: "error", message: "Incorrect email" });
       }
 
       if (password !== user.password) {
-        return res.status(404).json({ message: "Incorrect password" });
+        return res.status(404).json({ status: "error", message: "Incorrect password" });
       }
 
       let accessToken = jwt.sign({ user_data }, "access-key-secrete", {
