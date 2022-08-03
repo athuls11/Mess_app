@@ -60,7 +60,7 @@ const signup = async (req, res) => {
         .then((data) => {
           console.log(data);
           // const newData = {name:data.name,email:data.email,phone:data.phone,data}
-          res.status(201).json({ message: "Created", data });
+          res.status(201).json({status: "success", message: "Account created.", data });
         })
         .catch((e) => res.status(500).json({ error: e }));
     }
