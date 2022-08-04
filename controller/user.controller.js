@@ -20,8 +20,7 @@ function sendPushNotification(token, text) {
     };
 
     try {
-      const response = await client
-        .createNotification(notification);
+      const response = await client.createNotification(notification);
       return res(response);
     } catch (e) {
       return rej(e);
@@ -60,7 +59,9 @@ const signup = async (req, res) => {
         .then((data) => {
           console.log(data);
           // const newData = {name:data.name,email:data.email,phone:data.phone,data}
-          res.status(201).json({status: "success", message: "Account created.", data });
+          res
+            .status(201)
+            .json({ status: "success", message: "Account created.", data });
         })
         .catch((e) => res.status(500).json({ error: e }));
     }
@@ -83,11 +84,15 @@ const login = async (req, res) => {
       };
       // let check = await checkPswd(user.password, password);
       if (email !== user.email) {
-        return res.status(404).json({ status: "error", message: "Incorrect email" });
+        return res
+          .status(404)
+          .json({ status: "error", message: "Incorrect email" });
       }
 
       if (password !== user.password) {
-        return res.status(404).json({ status: "error", message: "Incorrect password" });
+        return res
+          .status(404)
+          .json({ status: "error", message: "Incorrect password" });
       }
 
       let accessToken = jwt.sign({ user_data }, "access-key-secrete", {
@@ -133,15 +138,19 @@ const logout = async (req, res) => {
     };
     User.findOneAndUpdate(filter, update, { new: true }).then((result) => {});
 
-    return res.status(200).json({ message: "User logged out successfully" });
+    return res
+      .status(200)
+      .json({ status: "success", message: "Logged out successfully" });
   });
 };
 
 function getByUserId(req, res) {
   let user_id = req.user.user_data.user_id;
-  User.findById(user_id).then((data) => {
-    res.status(200).json({ status: "success", data: data });
-  });
+  User.findById(user_id)
+    .select("-password -access_token")
+    .then((data) => {
+      res.status(200).json({ status: "success", data: data });
+    });
 }
 
 function addAmount(req, res, next) {
