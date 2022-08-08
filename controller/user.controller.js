@@ -45,7 +45,7 @@ const signup = async (req, res) => {
       const name = req.body.name;
       const email = req.body.email;
       const phone = req.body.phone;
-      const amount = req.body.amount;
+      const amount = 0;
       const password = req.body.password;
       let user = new User({
         name,
