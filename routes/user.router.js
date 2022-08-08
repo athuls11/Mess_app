@@ -14,6 +14,7 @@ router.post("/signup", user.signup);
 router.post("/login", user.login);
 router.post("/logout", auth.accessToken, user.logout);
 router.get("/profile", auth.accessToken, user.getByUserId);
+router.get("/users", auth.accessToken, user.getUsers);
 
 router.post("/meals", meals.create);
 router.get("/meals", meals.view);

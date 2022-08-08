@@ -188,6 +188,14 @@ function getAll(req, res, next) {
   });
 }
 
+function getUsers(req, res) {
+  User.find()
+    .select("-password -access_token")
+    .then((data) => {
+      res.status(200).json({ status: "success", data: data });
+    });
+}
+
 function getByAmt(req, res) {
   let user_id = req.user.user_data.user_id;
   Amount.find({ user: user_id }).then((data) => {
@@ -237,6 +245,7 @@ module.exports = {
   getByUserId,
   addAmount,
   getAll,
+  getUsers,
   getByAmt,
   filterByDate,
 };
