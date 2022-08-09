@@ -5,7 +5,7 @@ const UserSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, default: "", required: true },
     phone: { type: Number, default: "", required: true },
-    amount: { type: Number },
+    amount: { type: Number, default: 0 },
     date: { type: String },
     password: { type: String, required: true },
     access_token: { type: String, default: "" },
